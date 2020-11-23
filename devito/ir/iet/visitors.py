@@ -218,9 +218,7 @@ class CGen(Visitor):
                                                 f._C_field_data)
             else:
                 rvalue = '(%s (*)%s) %s' % (f._C_typedata, shape, obj)
-            lvalue = c.AlignedAttribute(f._data_alignment,
-                                        c.Value(f._C_typedata,
-                                                '(*restrict %s)%s' % (f.name, shape)))
+            lvalue = c.Value(f._C_typedata, '(*restrict %s)%s' % (f.name, shape))
         return c.Initializer(lvalue, rvalue)
 
     def visit_Dereference(self, o):
@@ -228,9 +226,7 @@ class CGen(Visitor):
         if a1.is_PointerArray:
             shape = ''.join("[%s]" % ccode(i) for i in a0.symbolic_shape[1:])
             rvalue = '(%s (*)%s) %s[%s]' % (a1._C_typedata, shape, a1.name, a1.dim.name)
-            lvalue = c.AlignedAttribute(a0._data_alignment,
-                                        c.Value(a0._C_typedata,
-                                                '(*restrict %s)%s' % (a0.name, shape)))
+            lvalue = c.Value(a0._C_typedata, '(*restrict %s)%s' % (a0.name, shape))
         else:
             rvalue = '%s->%s' % (a1.name, a0._C_name)
             lvalue = c.Value(a0._C_typename, a0._C_name)
