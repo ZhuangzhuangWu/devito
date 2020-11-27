@@ -126,7 +126,6 @@ class TestStreaming(object):
         assert np.all(u.data[nt-1] == 9)
         assert np.all(v.data[nt-1] == 9)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_tasking_unfused_two_locks(self):
         nt = 10
         bundle0 = Bundle()
@@ -183,7 +182,6 @@ class TestStreaming(object):
         assert np.all(u.data[nt-1] == 9)
         assert np.all(v.data[nt-1] == 9)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     @pytest.mark.parametrize('opt', [
         ('tasking', 'orchestrate'),
         ('tasking', 'streaming', 'orchestrate'),
