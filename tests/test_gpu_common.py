@@ -91,7 +91,6 @@ class TestStreaming(object):
 
         assert np.all(u.data[nt-1] == 8)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_tasking_fused(self):
         nt = 10
         bundle0 = Bundle()
