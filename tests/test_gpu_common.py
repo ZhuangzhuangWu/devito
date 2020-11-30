@@ -204,7 +204,6 @@ class TestStreaming(object):
         assert len(piters) == 1
         assert type(piters.pop()) == OpenMPIteration
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_tasking_multi_output(self):
         nt = 10
         bundle0 = Bundle()
@@ -247,7 +246,6 @@ class TestStreaming(object):
         assert np.all(u.data[:] == u1.data[:])
         assert np.all(usave.data[:] == usave1.data[:])
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_tasking_lock_placement(self):
         grid = Grid(shape=(10, 10, 10))
 
