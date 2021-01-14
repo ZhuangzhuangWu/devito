@@ -478,7 +478,7 @@ class TestStreaming(object):
         assert len(threads) == 2
         assert threads[0].size.data == 1
         assert threads[1].size.data == 1
-        assert len(op1._func_table) == 2  # usave and vsave eqns are in two diff efuncs
+        assert len(op1._func_table) == 4  # usave and vsave eqns are in two diff efuncs
 
         op0.apply(time_M=nt-1)
         op1.apply(time_M=nt-1, u=u1, v=v1, usave=usave1, vsave=vsave1)
@@ -596,7 +596,7 @@ class TestStreaming(object):
         op = Operator(eqns, opt=('buffering', 'tasking', 'topofuse', 'orchestrate'))
 
         # Check generated code
-        assert len(op._func_table) == 2  # usave and vsave eqns are in separate tasks
+        assert len(op._func_table) == 4  # usave and vsave eqns are in separate tasks
 
         op.apply(time_M=nt-1)
 
@@ -649,9 +649,8 @@ class TestStreaming(object):
         op = Operator(eqns, opt=('buffering', 'tasking', 'orchestrate'))
 
         # We just check the generated code here
-        locks = [i for i in FindSymbols().visit(op) if isinstance(i, Lock)]
-        assert len(locks) == 1
-        assert len(op._func_table) == 1
+        assert len([i for i in FindSymbols().visit(op) if isinstance(i, Lock)]) == 1
+        assert len(op._func_table) == 2
 
     def test_save_w_subdims(self):
         nt = 10
