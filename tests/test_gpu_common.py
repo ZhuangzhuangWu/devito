@@ -270,6 +270,7 @@ class TestStreaming(object):
         assert str(sections[1].body[0].body[0].body[0].body[0]) ==\
             'while(lock0[t1] == 0);'
 
+    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_streaming_simple(self):
         nt = 10
         grid = Grid(shape=(4, 4))
@@ -413,7 +414,6 @@ class TestStreaming(object):
         assert np.all(u.data == u1.data)
         assert np.all(usave.data == usave1.data)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_composite_buffering_tasking(self):
         nt = 10
         bundle0 = Bundle()
@@ -445,7 +445,6 @@ class TestStreaming(object):
         assert np.all(u.data == u1.data)
         assert np.all(usave.data == usave1.data)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_composite_buffering_tasking_multi_output(self):
         nt = 10
         bundle0 = Bundle()
@@ -514,7 +513,6 @@ class TestStreaming(object):
         assert np.all(u.data == u1.data)
         assert np.all(v.data == v1.data)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_tasking_over_compiler_generated(self):
         nt = 10
         bundle0 = Bundle()
@@ -544,7 +542,6 @@ class TestStreaming(object):
         assert np.all(u.data == u1.data)
         assert np.all(usave.data == usave1.data)
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     @pytest.mark.parametrize('opt,gpu_fit,async_degree', [
         (('tasking', 'orchestrate'), True, None),
         (('buffering', 'tasking', 'orchestrate'), True, None),
@@ -573,7 +570,6 @@ class TestStreaming(object):
 
         assert all(np.all(usave.data[i] == 2*i + 1) for i in range(usave.save))
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_save_multi_output(self):
         nt = 10
         grid = Grid(shape=(150, 150, 150))
@@ -603,7 +599,6 @@ class TestStreaming(object):
         assert all(np.all(usave.data[i] == 2*i + 1) for i in range(usave.save))
         assert all(np.all(vsave.data[i] == 2*i + 1) for i in range(vsave.save))
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_save_w_shifting(self):
         factor = 4
         nt = 19
@@ -627,7 +622,6 @@ class TestStreaming(object):
         assert np.all(np.allclose(u.data[0], 8))
         assert np.all([np.allclose(usave.data[i], 2+i*factor) for i in range(2)])
 
-    @skipif('device-openmp')  # TODO: Still unsupported with OpenMP, but soon will be
     def test_save_w_nonaffine_time(self):
         factor = 4
         grid = Grid(shape=(11, 11))
